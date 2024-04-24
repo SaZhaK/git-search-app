@@ -1,0 +1,197 @@
+<button id="openMenuButton" (click)="openMenu()">
+  <img id="openMenuIcon" src="assets/img/menu_button.png" title="Menu">
+</button>
+
+<div id="menuComponent"
+     [ngClass]="{'closedMenuComponent': menuOpened === false, 'openedMenuComponent': menuOpened === true}">
+  <button id="closeFiltersButton" (click)="closeMenu()">
+    <img id="closeFiltersIcon" src="assets/img/close_filters_button.png" title="Close">
+  </button>
+
+  <div id="filtersList">
+    <div id="filtersListHeader">
+      <div id="filtersListLabel">Filters</div>
+      <button id="clearFiltersButton" (click)="clearFilters()">
+        <img id="clearFiltersImage" src="assets/img/clear_filters_button.png" title="Clear">
+      </button>
+    </div>
+
+    <div id="extensionFilter" class="filter">
+      <div class="filterLabel">extension</div>
+      <input id="extensionFilterInput" class="filterInput" type="text" [(ngModel)]="extensionFilter"/>
+    </div>
+
+    <div id="packageFilter" class="filter" *ngIf="extensionFilter === 'java' || extensionFilter === 'kt'">
+      <div class="filterLabel">java package</div>
+      <input id="packageFilterInput" class="filterInput" type="text" [(ngModel)]="packageFilter"/>
+    </div>
+
+    <div id="fileMaskFilter" class="filter">
+      <div class="filterLabel">file mask</div>
+      <input id="fileMaskFilterInput" class="filterInput" type="text" [(ngModel)]="fileMaskFilter"/>
+    </div>
+
+    <div id="directoryFilter" class="filter">
+      <div class="filterLabel">directory</div>
+      <input id="directoryFilterInput" class="filterInput" type="text" [(ngModel)]="directoryFilter"/>
+    </div>
+
+    <div id="repositoryFilter" class="filter">
+      <div class="filterLabel">repository</div>
+      <input id="repositoryFilterInput" class="filterInput" type="text" [(ngModel)]="repositoryFilter"/>
+    </div>
+
+    <div id="branchFilter" class="filter">
+      <div class="filterLabel">branch</div>
+      <input id="branchFilterInput" class="filterInput" type="text" [(ngModel)]="branchFilter"/>
+    </div>
+
+    <div id="repositoryTypeFilter" class="filter">
+      <div class="filterLabel">repository type</div>
+      <div id="repositoryTypeFilterDropdown"
+           [ngClass]="{'repositoryTypeFilterDropdownOpened': repositoryTypeFilterOpened === true}">
+        <input id="repositoryTypeFilterInput" (click)="openRepositoryTypeFilterDropdown()"
+               [(ngModel)]="repositoryTypeFilter" readonly/>
+        <div id="repositoryTypeFilterDropdownContent" *ngIf="repositoryTypeFilterOpened === true">
+          <div class="dropdownOption" (click)="selectRepositoryTypeFilter('any')">any</div>
+          <div class="dropdownOption" (click)="selectRepositoryTypeFilter('development')">development</div>
+          <div class="dropdownOption" (click)="selectRepositoryTypeFilter('implementation')">implementation</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="submitFiltersComponent">
+      <button id="submitFiltersButton" (click)="submitFilters()">Submit filters</button>
+    </div>
+  </div>
+
+  <div id="optionsComponent">
+    <div id="optionsHeader">
+      <div id="optionsLabel">Update index</div>
+      <button id="fetchButton" (click)="fetch()">
+        <img id="fetchIcon" src="assets/img/fetch_button.png" title="Update">
+      </button>
+    </div>
+    <div id="lastUpdateTimeComponent">
+      last update at {{lastUpdateTime}}
+    </div>
+  </div>
+</div>
+
+<div id="centralComponent">
+  <div id="searchComponent">
+    <img id="logoImage" src="assets/img/logo.png">
+    <div id="inputComponent">
+      <button id="searchButton" (click)="search()" title="Search">
+        <img id="searchImage" src="assets/img/search_button.png">
+      </button>
+      <form id="searchForm" (ngSubmit)="search()" #heroForm="ngForm">
+        <input id="searchInput" name="searchInput" type="text" [(ngModel)]="currentSearchRequest" placeholder="Search"/>
+      </form>
+      <button id="clearInputButton" (click)="clearInput()" [hidden]="inputIsEmpty()">
+        <img id="clearInputImage" src="assets/img/clear_input_button.png" title="Clear">
+      </button>
+    </div>
+  </div>
+
+  <div id="filterResultsComponent">
+    <div class="filterResult" *ngIf="filterIsPresent('extensionFilter')">extension:
+      <b>{{getFilter('extensionFilter')}}</b></div>
+    <div class="filterResult" *ngIf="filterIsPresent('packageFilter')">package: <b>{{getFilter('packageFilter')}}</b>
+    </div>
+    <div class="filterResult" *ngIf="filterIsPresent('fileMaskFilter')">file mask:
+      <b>{{getFilter('fileMaskFilter')}}</b></div>
+    <div class="filterResult" *ngIf="filterIsPresent('directoryFilter')">directory:
+      <b>{{getFilter('directoryFilter')}}</b></div>
+    <div class="filterResult" *ngIf="filterIsPresent('repositoryFilter')">repository: <b>{{getFilter('repositoryFilter')}}</b>
+    </div>
+    <div class="filterResult" *ngIf="filterIsPresent('branchFilter')">branch: <b>{{getFilter('branchFilter')}}</b></div>
+    <div class="filterResult" *ngIf="filterIsPresent('repositoryTypeFilter')">repository type: <b>{{getFilter('repositoryTypeFilter')}}</b>
+    </div>
+  </div>
+
+  <div id="resultsComponent">
+
+    <div id="snippetLoadingComponent" *ngIf="loadingSnippet === true">
+      <span class="loader"></span>
+      <div>Loading...</div>
+    </div>
+
+    <div id="snippetSearchComponent" *ngIf="snippet != null && snippet.length !== 0">
+      <div id="snippetPath" class="tableHeader">
+        <a id="gitlabLink" [href]="snippetLink" target="_blank">
+          <div>
+            {{snippetPath}}
+          </div>
+        </a>
+      </div>
+      <table id="snippetTable" class="codeTable">
+        <tr *ngFor="let line of snippet; let i = index">
+          <td class="lineNumber">{{line.number}}</td>
+          <td class="lineContent"
+              [ngClass]="{'centralCodeLine': line.content === selectedLineContent}"
+              [innerHTML]="highlightCode(line.content, line.path)">
+          </td>
+        </tr>
+      </table>
+      <div id="snippetInfo">
+        <span id="languageCircle" [ngStyle]="{'background-color': getSnippetLanguageColor()}"></span>
+        <span id="languageSpan">{{snippetLanguage}}</span>
+        <img id="branchImage" src="assets/img/branch_logo.png">
+        <span id="branchSpan">{{snippetBranch}}</span>
+        <span id="snippetMetaInfoSpan">last update on <span class="metaInfo">{{snippetDate}}</span> by <span
+          class="metaInfo">{{snippetAuthor}}</span></span>
+      </div>
+    </div>
+
+    <div id="resultsLoadingComponent" *ngIf="loadingResults === true">
+      <span class="loader"></span>
+      <div>Searching...</div>
+    </div>
+
+    <div id="exactSearchComponent" *ngIf="exactSearch != null && exactSearch.length !== 0">
+      <div id="exactSearchResultsTableHeader" class="tableHeader">
+        {{printExactMatches()}}
+      </div>
+
+      <div id="exactSearchResultsTableScrollableArea" class="searchResultsTableScrollableArea codeTable">
+        <table id="exactSearchResultsTable" class="searchResultsTable">
+          <tr *ngFor="let line of exactSearch; let i = index"
+              (click)="rowClick(i, line.content, line.path, line.number, line.branch)"
+              [ngClass]="{'selectedLine': i === selectedRow}">
+            <td class="lineContent" [innerHTML]="highlightCode(line.content, line.path)"></td>
+            <td class="linePath">{{extractPath(line.path)}}</td>
+            <td class="lineNumber">{{line.number}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div id="fuzzySearchComponent" *ngIf="fuzzySearch != null && fuzzySearch.length !== 0">
+      <div id="fuzzyResultsDisclaimer">
+        Unfortunately, no exact matches were found for <em><b>'{{searchRequest}}'</b></em>
+      </div>
+      <div id="fuzzySearchResultsTableHeader" class="tableHeader">
+        {{printFuzzyMatches()}}
+      </div>
+
+      <div id="fuzzySearchResultsTableScrollableArea" class="searchResultsTableScrollableArea codeTable">
+        <table id="fuzzySearchResultsTable" class="searchResultsTable">
+          <tr *ngFor="let line of fuzzySearch; let i = index"
+              (click)="rowClick(i, line.content, line.path, line.number, line.branch)"
+              [ngClass]="{'selectedLine': i === selectedRow}">
+            <td class="lineContent" [innerHTML]="highlightCode(line.content, line.path)"></td>
+            <td class="linePath">{{extractPath(line.path)}}</td>
+            <td class="lineNumber">{{line.number}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div id="noResultsComponent" *ngIf="noResultsFound()">
+      <img id="noResultsImage" src="assets/img/no_results_logo.png">
+      <span id="noResultsText"> No matches found </span>
+    </div>
+  </div>
+
+</div>

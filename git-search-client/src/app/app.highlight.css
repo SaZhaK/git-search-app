@@ -1,0 +1,156 @@
+:root {
+  --color-hljs-comment: #969896;
+  --color-hljs-variable: #b294bb;
+  --color-hljs-link: #de935f;
+  --color-hljs-meta: #969896;
+  --color-hljs-keyword: #b294bb;
+  --color-hljs-type: #f0c674;
+  --color-hljs-attr: #81a2be;
+  --color-hljs-builtin: #c5c8c6;
+  --color-hljs-title: #c5c8c6;
+  --color-hljs-class: #f0c674;
+  --color-hljs-function: #81a2be;
+  --color-hljs-tag: #8abeb7;
+  --color-hljs-number: #de935f;
+  --color-hljs-subst: #c5c8c6;
+  --color-hljs-string: #b5bd68;
+  --color-hljs-symbol: #b5bd68;
+  --color-hljs-variable: #c66;
+  --color-hljs-operator: #8abeb7;
+  --color-hljs-punctuation: #c5c8c6;
+  --color-hljs-regexp: #b5bd68;
+  --color-hljs-constant: #81a2be;
+  --color-hljs-literal: #b294bb;
+  --color-hljs-language: #81a2be;
+  --color-hljs-params: #81a2be;
+  --color-hljs-selector-doctag: #969896;
+  --color-hljs-selector-tag: #8abeb7;
+  --color-hljs-selector-class: #f0c674;
+  --color-hljs-selector-id: #f0c674;
+  --color-hljs-selector-attr: #8abeb7;
+  --color-hljs-selector-pseudo: #8abeb7;
+}
+
+.hljs-comment {
+  color: var(--color-hljs-comment);
+}
+
+.hljs-link {
+  color: var(--color-hljs-link);
+}
+
+.hljs-meta {
+  color: var(--color-hljs-meta);
+}
+
+.hljs-keyword {
+color: var(--color-hljs-keyword);
+}
+
+.hljs-type {
+  color: var(--color-hljs-type);
+}
+
+.hljs-attr, .hljs-property {
+  color: var(--color-hljs-attr);
+}
+
+.hljs-built_in {
+  color: var(--color-hljs-builtin);
+}
+
+.hljs-literal {
+  color: var(--color-hljs-literal);
+}
+
+.hljs-title {
+  color: var(--color-hljs-title);
+}
+
+.hljs-title.class_ {
+  color: var(--color-hljs-class);
+}
+
+.hljs-title.class_.inherited__ {
+  color: var(--color-hljs-variable);
+}
+
+.hljs-title.function_ {
+  color: var(--color-hljs-function);
+}
+
+.hljs-tag, .hljs-name {
+  color: var(--color-hljs-tag);
+}
+
+.hljs-number {
+  color: var(--color-hljs-number);
+}
+
+.hljs-subst {
+  color: var(--color-hljs-subst);
+}
+
+.hljs-string, .hljs-section, .hljs-bullet {
+  color: var(--color-hljs-string);
+}
+
+.hljs-symbol {
+  color: var(--color-hljs-symbol);
+}
+
+.hljs-variable {
+  color: var(--color-hljs-variable);
+}
+
+.hljs-variable.language_ {
+  color: var(--color-hljs-language);
+}
+
+.hljs-variable.constant_ {
+  color: var(--color-hljs-constant);
+}
+
+.hljs-attribute {
+  color: var(--color-hljs-attribute);
+}
+
+.hljs-operator {
+  color: var(--color-hljs-operator);
+}
+
+.hljs-punctuation {
+  color: var(--color-hljs-punctuation);
+}
+
+.hljs-regexp {
+  color: var(--color-hljs-regexp);
+}
+
+.hljs-params {
+  color: var(--color-hljs-params);
+}
+
+.hljs-doctag {
+  color: var(--color-hljs-doctag);
+}
+
+.hljs-selector-tag {
+  color: var(--color-hljs-selector-tag);
+}
+
+.hljs-selector-class {
+  color: var(--color-hljs-selector-class);
+}
+
+.hljs-selector-id {
+  color: var(--color-hljs-selector-id);
+}
+
+.hljs-selector-attr {
+  color: var(--color-hljs-selector-attr);
+}
+
+.hljs-selector-pseudo {
+  color: var(--color-hljs-selector-pseudo);
+}
